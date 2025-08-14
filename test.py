@@ -84,7 +84,7 @@ def test(
 
 if __name__=='__main__':
     
-    parser = argparse.ArgumentParser(description="CityWalker")
+    parser = argparse.ArgumentParser(description="UrbanNav")
     parser.add_argument("--project", "-p", type=str, help="Path to the project folder")
     parser.add_argument("--checkpoint", "-m", type=str, help="Path to the checkpoint")
     parser.add_argument("--gpu", "-g", type=int, help="Path to the checkpoint")

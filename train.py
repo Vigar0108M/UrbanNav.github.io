@@ -123,7 +123,7 @@ def train(
 
 if __name__=='__main__':
     
-    parser = argparse.ArgumentParser(description="CityWalker")
+    parser = argparse.ArgumentParser(description="UrbanNav")
     parser.add_argument("--config", "-c", type=str, help="Path to the config file in configs folder",)
     args = parser.parse_args()
 
