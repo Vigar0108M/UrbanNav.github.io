@@ -1,5 +1,5 @@
-project_name: urbannv
-run_name: git
+project_name: UrbanNav
+run_name: run_demo
 
 master_name: 12345
 gpu_ids: [0,1]
