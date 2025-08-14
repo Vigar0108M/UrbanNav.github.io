@@ -89,8 +89,8 @@ if __name__=='__main__':
     parser.add_argument("--checkpoint", "-m", type=str, help="Path to the checkpoint")
     parser.add_argument("--gpu", "-g", type=int, help="Path to the checkpoint")
     parser.add_argument("--batch_size", "-b", type=int, default=64)
-    parser.add_argument("--seen_split", type=str, default="/mnt/share/yhmei/code/BevWalker/datasets/landmark_test_seen_data.pkl")
-    parser.add_argument("--unseen_split", type=str, default="/mnt/share/yhmei/code/BevWalker/datasets/landmark_test_unseen_data.pkl")
+    parser.add_argument("--seen_split", type=str)
+    parser.add_argument("--unseen_split", type=str)
     args = parser.parse_args()
 
     # Load config
