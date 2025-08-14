@@ -9,10 +9,9 @@ from statistics import mean
 import torch
 from torch.utils.data import Dataset, DataLoader
 import torch.backends.cudnn as cudnn
-from diffusers.schedulers.scheduling_ddpm import DDPMScheduler
 
-from utils.lmf_utils import setup_model, test_epoch
-from utils.setup_utils import setup_dataset
+from utils.train_utils import test_epoch
+from utils.setup_utils import setup_dataset, setup_model
 
 
 def test(
@@ -49,13 +48,6 @@ def test(
 
     # Set up model
     model = setup_model(config).to(device)
-    if config["model"]["use_diffusion"]:
-        noise_scheduler = DDPMScheduler(
-            num_train_timesteps=config["model"]["num_diffusion_iters"],
-            beta_schedule='squaredcos_cap_v2',
-            clip_sample=True,
-            prediction_type='epsilon'
-        )
 
     # Test Seen
     seen_metric = test_epoch(
