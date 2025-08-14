@@ -16,7 +16,7 @@ from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.utils.data.distributed import DistributedSampler
 
 from utils.logger import TensorboardLogger
-from utils.lmf_utils import train_epoch, val_epoch
+from utils.train_utils import train_epoch, val_epoch
 from utils.setup_utils import setup_DDP, setup_optimizer, setup_dataset, setup_model
 
 
