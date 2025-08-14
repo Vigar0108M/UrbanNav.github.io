@@ -363,7 +363,7 @@ class UrbanNav(nn.Module):
         self.arrived_predictor = nn.Linear(32, 1)
 
 
-    def forward(self, text_feat, curr_obs_img, obs_feat):
+    def forward(self, text_feat, curr_obs_img, obs_feat, coord):
 
         obsgoal_enc = self.obsgoal_encoder(curr_obs_img, text_feat)
         obsgoal_enc = self.obsgoal_compress(obsgoal_enc.flatten(start_dim=1)).unsqueeze(1)

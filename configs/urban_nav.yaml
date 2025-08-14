@@ -46,12 +46,12 @@ model:
 
 # data
 data:
-  data_dir: /mnt/share/yhmei/dataset/dataset_LandMark/datas
-  lut_file: /mnt/share/yhmei/git/UrbanNav/datasets/scene_type_lut.json
-  split_file: /mnt/share/yhmei/code/BevWalker/datasets/landmark_train_data.pkl
-  image_file: /mnt/share/yhmei/dataset/dataset_CityWalker/images
-  feat_file: /mnt/share/yhmei/dataset/dataset_CityWalker/features/dinov2_vitl14_1fps.lmdb
-  use_image: False
+  data_dir: /path/to/datas
+  lut_file: datasets/scene_type_lut.json
+  split_file: datasets/landmark_train_data.pkl
+  image_file: /path/to/images
+  feat_file: /path/to/features
+  use_image: True
   split: 0.9
   video_fps: 1
   pose_fps: 5
