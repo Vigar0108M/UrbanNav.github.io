@@ -1,5 +1,5 @@
 # UrbanNav: Learning Language-Guided Embodied Urban Navigation from Web-Scale Human Trajectories
-### [Demo](https://github.com/Vigar0108M/UrbanNav.github.io/releases/download/v1.0/UrabnNav-Demo.gif)
+### Demo
 The full demo is available for download and viewing [here](https://github.com/Vigar0108M/UrbanNav.github.io/releases/download/v1.0/UrabnNav-Demo.gif) due to file size limitations.
 
 ### Abstract
