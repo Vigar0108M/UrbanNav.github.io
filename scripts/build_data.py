@@ -22,9 +22,9 @@ def get_pose_path(traj_id, pose_folder):
 
 if __name__ == "__main__":
     
-    label_folder = "/mnt/share/yhmei/dataset/dataset_CityWalker/labels"
-    pose_folder = "/mnt/share/yhmei/dataset/dataset_CityWalker/poses"
-    output_folder = "/mnt/share/yhmei/dataset/dataset_LandMark/datas"
+    label_folder = "/path/to/labels"
+    pose_folder = "/path/to/poses"
+    output_folder = "/path/to/datas"
 
     traj_list = get_traj_list(label_folder)
 

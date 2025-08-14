@@ -20,9 +20,9 @@ def random_split_list(lst, train_ratio=0.8):
 
 if __name__ == "__main__":
     
-    root_path = "/mnt/share/yhmei/dataset/dataset_LandMark/datas"
-    output_path = "/mnt/share/yhmei/code/BevWalker/datasets"
-    scene_type_lut_path = "/mnt/share/yhmei/code/BevWalker/datasets/scene_type_lut.json"
+    root_path = "/path/to/datas"
+    output_path = "/path/to/datasets"
+    scene_type_lut_path = "/path/to/scene_type_lut.json"
     test_ratio = 0.2
 
     with open(scene_type_lut_path, 'r', encoding='utf-8') as f:
