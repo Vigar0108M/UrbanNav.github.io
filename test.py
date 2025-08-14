@@ -1,0 +1,124 @@
+import os
+import yaml
+import json
+import argparse
+import numpy as np
+from datetime import datetime
+from statistics import mean
+
+import torch
+from torch.utils.data import Dataset, DataLoader
+import torch.backends.cudnn as cudnn
+from diffusers.schedulers.scheduling_ddpm import DDPMScheduler
+
+from utils.lmf_utils import setup_model, test_epoch
+from utils.setup_utils import setup_dataset
+
+
+def test(
+        config: dict,
+        seen_dataset: Dataset,
+        unseen_dataset: Dataset,
+        device: torch.device
+):
+
+    # Set random seed
+    if "seed" in config:
+        np.random.seed(config["seed"])
+        torch.manual_seed(config["seed"])
+        cudnn.deterministic = True
+
+    # Build dataloader
+    batch_size = config["batch_size"]
+    seen_loader = DataLoader(
+        seen_dataset,
+        batch_size=batch_size,
+        num_workers=config["num_workers"],
+        shuffle=False,
+        drop_last=True,
+        persistent_workers=True
+    )
+    unseen_loader = DataLoader(
+        unseen_dataset,
+        batch_size=batch_size,
+        num_workers=config["num_workers"],
+        shuffle=False,
+        drop_last=True,
+        persistent_workers=True
+    )
+
+    # Set up model
+    model = setup_model(config).to(device)
+    if config["model"]["use_diffusion"]:
+        noise_scheduler = DDPMScheduler(
+            num_train_timesteps=config["model"]["num_diffusion_iters"],
+            beta_schedule='squaredcos_cap_v2',
+            clip_sample=True,
+            prediction_type='epsilon'
+        )
+
+    # Test Seen
+    seen_metric = test_epoch(
+        config=config,
+        model=model,
+        dataloader=seen_loader,
+        device=device
+    )
+
+    # Test Unseen
+    unseen_metric = test_epoch(
+        config=config,
+        model=model,
+        dataloader=unseen_loader,
+        device=device
+    )
+
+    metric = {}
+    metric["test_seen"] = seen_metric
+    metric["test_unseen"] = unseen_metric
+
+    res_path = os.path.join(config["project_folder"], "result.json")
+    with open(res_path, "w", encoding="utf-8") as json_file:
+        json.dump(metric, json_file, ensure_ascii=False, indent=4)
+
+
+if __name__=='__main__':
+    
+    parser = argparse.ArgumentParser(description="CityWalker")
+    parser.add_argument("--project", "-p", type=str, help="Path to the project folder")
+    parser.add_argument("--checkpoint", "-m", type=str, help="Path to the checkpoint")
+    parser.add_argument("--gpu", "-g", type=int, help="Path to the checkpoint")
+    parser.add_argument("--batch_size", "-b", type=int, default=64)
+    parser.add_argument("--seen_split", type=str, default="/mnt/share/yhmei/code/BevWalker/datasets/landmark_test_seen_data.pkl")
+    parser.add_argument("--unseen_split", type=str, default="/mnt/share/yhmei/code/BevWalker/datasets/landmark_test_unseen_data.pkl")
+    args = parser.parse_args()
+
+    # Load config
+    with open(os.path.join(args.project, 'train_config.json'), "r") as f:
+        config = json.load(f)
+    config.pop('project_name')
+    config.pop('run_name')
+    config["project_folder"] = args.project
+    config["model_path"] = args.checkpoint
+    config["mode"] = "test"
+    config["batch_size"] = args.batch_size
+    config["seen_split"] = args.seen_split
+    config["unseen_split"] = args.unseen_split
+    
+    # Set random seed
+    if "seed" in config:
+        np.random.seed(config["seed"])
+        torch.manual_seed(config["seed"])
+        cudnn.deterministic = True
+
+    # Setup cuda
+    # os.environ["CUDA_VISIBLE_DEVICES"] = str(config["gpu"])
+    device = torch.device(f"cuda:{args.gpu}")
+
+    # Set train and test datasets
+    _, _, test_seen_dataset, test_unseen_dataset = setup_dataset(config)
+
+    # Test
+    test(config, test_seen_dataset, test_unseen_dataset, device)
+
+    

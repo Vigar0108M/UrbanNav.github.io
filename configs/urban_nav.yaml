@@ -1,0 +1,70 @@
+project_name: urbannv
+run_name: git
+
+master_name: 12345
+gpu_ids: [0,1]
+
+# Common
+mode: train  # train, test
+seed: 0
+epochs: 30
+batch_size: 128
+num_workers: 12
+context_size: 8
+len_traj_pred: 8
+learn_angle: False
+
+# training setup
+train:
+  optimizer: sgd  # adam, sgd, adamw
+  lr: 2e-4
+  scheduler: cosine  # step_lr, cosine, none
+  step_size: 10
+  gamma: 0.1
+  direction_loss_weight: 5.0
+  feature_loss_weight: 0.1
+  arrived_loss_weight: 1.0
+
+# model
+model:
+  feature_fusion: film  # mlp, cross_attention, film
+  model_path: Null
+  visual_encoder: 'dinov2_vitl14'
+  clip_type: ViT-B/32
+  visual_feat_size: 1024  # vits14: 384, vitb14: 768, vitl14: 1024, vitg14: 1536
+  film_feat_size: 4096
+  rgb_normalize: True
+  rgb_resize: True
+  crop: [350, 630]
+  resize: [224, 224]
+  attn_dim: 1024
+  num_attn_layers: 4
+  num_attn_heads: 8
+  ff_dim_factor: 4
+  num_freqs: 6
+  dropout: 0
+
+# data
+data:
+  data_dir: /mnt/share/yhmei/dataset/dataset_LandMark/datas
+  lut_file: /mnt/share/yhmei/git/UrbanNav/datasets/scene_type_lut.json
+  split_file: /mnt/share/yhmei/code/BevWalker/datasets/landmark_train_data.pkl
+  image_file: /mnt/share/yhmei/dataset/dataset_CityWalker/images
+  feat_file: /mnt/share/yhmei/dataset/dataset_CityWalker/features/dinov2_vitl14_1fps.lmdb
+  use_image: False
+  split: 0.9
+  video_fps: 1
+  pose_fps: 5
+  target_fps: 1
+  image_size: [360, 640]  # height, width
+  input_noise: 0.1  # sigma
+  search_lower_bound: 10
+  search_upper_bound: 60
+  arrived_threshold: 5  # num frame
+  arrived_prob: 0.3
+
+# logging stuff
+iter_log_freq: 200  # For iteration
+save_model_freq: 10  # For epoch
+eval_freq: 1 # in epochs
+
