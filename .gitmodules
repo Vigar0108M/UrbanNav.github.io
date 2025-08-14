@@ -1,0 +1,6 @@
+[submodule "thirdparty/DPVO"]
+	path = thirdparty/DPVO
+	url = https://github.com/princeton-vl/DPVO.git
+[submodule "thirdparty/dinov2"]
+	path = thirdparty/dinov2
+	url = https://github.com/facebookresearch/dinov2.git
